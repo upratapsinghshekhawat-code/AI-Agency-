@@ -1,14 +1,11 @@
-﻿# Render Blueprint — free-tier n8n + bot
-# NOTE on free tier: Render free Web Services sleep after ~15 min idle.
-# First message after idle triggers a cold start(30–60s). Accepted for demo;
-# upgrade to a paid instance(or pass cost to client) before going live for a real client.
+class="tok-comment"># Render Blueprint — free-tier n8n + bot
 services:
   - type: web
     name: n8n-leadbot
     runtime: docker
     plan: free
     dockerfilePath: ./Dockerfile
-    healthCheckPath: /healthz
+    healthCheckPath: /
     envVars:
       - key: N8N_BASIC_AUTH_ACTIVE
         value: "true"
@@ -20,10 +17,12 @@ services:
         sync: false
       - key: N8N_SECURE_COOKIE
         value: "true"
-      - key: N8N_RUNNERS_ENABLED
-        value: "false"
+      - key: N8N_RUNNERS_MODE
+        value: internal
+      - key: N8N_RUNNERS_TASK_TIMEOUT
+        value: "60"
       - key: NODE_OPTIONS
-        value: --max-old-space-size=384
+        value: class="tok-comment">--max-old-space-size=384
       - key: NVIDIA_API_KEY
         sync: false
       - key: TELEGRAM_BOT_TOKEN
